@@ -1,0 +1,93 @@
+{% extends 'base.html' %} 
+{% block start %}
+<style>
+    .signup-card {
+       max-width: 400px;
+       margin: 0 auto;
+       border: 1px solid #ccc;
+       border-radius: 10px;
+       padding: 20px;
+       box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    .signup-card h2 {
+       text-align: center;
+    }
+    .signup-card input {
+       width: 100%;
+       padding: 10px;
+       margin-bottom: 10px;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+       /* text-transform: lowercase; */
+    }
+    .signup-card button {
+       width: 100%;
+       padding: 10px;
+       border: none;
+       background-color: #007bff;
+       color: #fff;
+       cursor: pointer;
+       border-radius: 5px;
+    }
+    .signup-card button:hover {
+       background-color: #0056b3;
+    }
+    .signup-card label {
+       font-weight: bold;
+       text-align: center;
+       display: block;
+       margin-bottom: 5px;
+    }
+ </style>
+</head>
+<body class="sub_page">
+ <div class="hero_area">
+    <!-- ... (your header section remains the same) ... -->
+ </div>
+ <!-- inner page section -->
+ <section class="inner_page_head">
+    <div class="container_fuild">
+       <div class="row">
+          <div class="col-md-12">
+             <div class="full">
+                <h3>Sign Up</h3>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- end inner page section -->
+ <!-- signup section -->
+ <section class="why_section layout_padding">
+    <div class="container">
+       <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+             <div class="full">
+                <div class="signup-card">
+                   <form method = "POST">
+                     {% csrf_token %}
+                     {% include "alert.html" %}
+                      <fieldset>
+                         <label for="username">First Name</label>
+                         <input type="text" id="username" placeholder="Enter your username" name="first_name" required />
+                         <label for="username">Last Name</label>
+                         <input type="text" id="username" placeholder="Enter your username" name="last_name" required />
+                         <label for="email">Email</label>
+                         <input type="email" id="email" placeholder="Enter your email address" name="email" required />
+                         <label for="password">Password</label>
+                         <input type="password" id="password" placeholder="Enter your password" name="password" required />
+                         <button type="submit" value="Sign Up">Sign Up</button>
+                      </fieldset>
+                   </form>
+                   <p style="text-align: center;">Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- end signup section -->
+ <!-- footer section -->
+ <!-- ... (your footer section remains the same) ... -->
+</body>
+{% endblock %}

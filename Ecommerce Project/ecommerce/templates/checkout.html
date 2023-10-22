@@ -1,0 +1,150 @@
+{% extends 'base.html' %} 
+{% block start %}
+<style>
+    .checkout-card {
+       max-width: 800px;
+       margin: 0 auto;
+       border: 1px solid #ccc;
+       border-radius: 10px;
+       padding: 20px;
+       box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    .checkout-card h2  {
+       text-align: center;
+    }
+    .checkout-card label {
+       font-weight: bold;
+    }
+    .checkout-card input, .checkout-card select {
+       width: 100%;
+       padding: 10px;
+       margin-bottom: 10px;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+    }
+    .checkout-card button {
+       width: 100%;
+       padding: 10px;
+       border: none;
+       background-color: #f7444e;
+       color: #fff;
+       cursor: pointer;
+       border-radius: 5px;
+    }
+    .checkout-card button:hover {
+       background-color: #0056b3;
+    }
+    .product-table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-bottom: 20px;
+    }
+    .product-table th, .product-table td {
+       border: 1px solid #ccc;
+       padding: 8px;
+       text-align: center;
+    }
+ </style>
+</head>
+<body class="sub_page">
+ <div class="hero_area">
+    <!-- ... (your header section remains the same) ... -->
+ </div>
+ <!-- inner page section -->
+ <section class="inner_page_head">
+    <div class="container_fuild">
+       <div class="row">
+          <div class="col-md-12">
+             <div class="full">
+                <h3>Checkout</h3>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- end inner page section -->
+ <!-- checkout section -->
+ <section class="why_section layout_padding">
+    <div class="container">
+       <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+             <div class="full">
+                <div class="checkout-card">
+                   <h2>Checkout</h2>
+                   <!-- Product Details -->
+                   <table class="product-table">
+                     <thead>
+                         <tr>
+                             <th>Product Name</th>
+                             <th>Price</th>
+                             <th>Quantity</th>
+                             
+                         </tr>
+                     </thead>
+                     <tbody id="cart-items">
+                        {% for item in cart_item %}
+                        <tr>
+                            <td>{{item.product}}</td>
+                            <td>{{ item.get_total }}</td>
+                            <td>
+                                <div class="cart-item-quantity">
+                                <form action="{% url 'increase-cart-item' item.product.slug %}" method="post" style="display: inline-block;">
+                                      {% csrf_token %}
+                                      <button class="quantity-btn increase-quantity" type="submit">+</button>
+                                </form>
+                                    <span class="item-quantity" style="display: inline-block;">{{ item.quantity }}</span>
+                                <form action="{% url 'decrease-cart-item' item.product.slug %}" method="post" style="display: inline-block;">
+                                      {% csrf_token %}
+                                      <button class="quantity-btn decrease-quantity" type="submit">-</button>
+                                </form>
+                                <form action="{% url 'remove-from-cart' item.product.slug %}" method="post" style="display: inline-block;">
+                                    {% csrf_token %}
+                                    <button class="remove-from-cart-btn" type="submit">Remove</button>
+                                </form>
+                             </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+                <h5>Order Total:   ₹ {{cart_total}}</h5>
+                <h5>Order Quantity:   {{quantity_total}}</h5>
+                 
+                   <!-- Address Section -->
+                   <h3>Shipping Address</h3>
+                   <form method="post" action="{% url 'place_order' %}">
+                     {% csrf_token %}
+                      <fieldset>
+                         <label for="name">Name</label>
+                         <input type="text" id="first_name" placeholder="Enter your first name" name="name" required />
+                         <label for="email">Email</label>
+                         <input type="email" id="email" placeholder="Enter your email address" name="email" required />
+                         <label for="address">Address</label>
+                         <input type="text" id="address" placeholder="Enter your address" name="address" required />
+                         <label for="address">Landmark</label>
+                         <input type="text" id="landmark" placeholder="Enter your address" name="landmark" required />
+                         <label for="city">City</label>
+                         <input type="text" id="city" placeholder="Enter your city" name="city" required />
+                         <label for="state">State</label>
+                         <input type="text" id="state" placeholder="Enter your state" name="state" required />
+                         <label for="zip">PIN Code</label>
+                         <input type="text" id="zip" placeholder="Enter your ZIP code" name="zip" required />
+                      </fieldset>
+                      <button type="submit" class="btn btn-primary">Place Order</button>
+                   </form>
+                   <!-- Payment Options -->
+                   <h3>Payment Options</h3>
+                   <label for="payment_method">Select Payment Method</label>
+                   <select id="payment_method" name="payment_method" required>
+                      <option value="card">Cash On Delivery</option>
+                      <option value="upi">UPI</option>
+                   </section>
+                   <button type="submit" class="btn btn-primary">Place Order</button>
+                   <!-- <input type="submit" value="Place Order" /> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

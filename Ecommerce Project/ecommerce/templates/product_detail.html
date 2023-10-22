@@ -1,0 +1,125 @@
+{% extends 'base.html' %} 
+
+{% block start %}
+<section class="py-5">
+  <style>
+    .add-to-cart-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      background-color: #f7444e; /* Button color */
+      color: #fff; /* Text color */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px 0;
+      transition: background-color 0.3s ease;
+    }
+    
+    .add-to-cart-btn:hover {
+      background-color: #0056b3; /* Darker shade of the button color */
+    }
+    
+  </style>
+  
+    <div class="container">
+      <div class="row gx-5">
+        <aside class="col-lg-6">
+          <div class="border rounded-4 mb-3 d-flex justify-content-center">
+            
+            <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="">
+              <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/media/{{product.product_images.first.image}}">
+            </a>
+            
+          </div>
+          
+          <div class="d-flex justify-content-center mb-3">
+            {% for product in product.product_images.all %}
+            <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="">
+              <img width="60" height="60" class="rounded-2" src="/media/{{product.image}}">
+            </a>
+            {% endfor %}
+          </div>
+          <!-- thumbs-wrap.// -->
+          <!-- gallery-wrap .end// -->
+        </aside>
+        <main class="col-lg-6">
+          <div class="ps-lg-3">
+            <h4 class="title text-dark">
+              {{product.product_name}}
+            </h4>
+            <div class="d-flex flex-row my-3">
+              <div class="text-warning mb-1 me-2">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="ms-1">
+                  4.5
+                </span>
+              </div>
+              <span class="text-success ms-2">In stock</span>
+            </div>
+  
+            <div class="mb-3">
+              <span class="h5">₹ {{product.price}}</span>
+            </div>
+            <p>
+              {{product.product_description}}
+            </p>
+
+            <div class="row mb-4">
+              <!-- col.// -->
+              <div class="row mb-4">
+                <div class="col-md-4 col-6 mb-3">
+                    
+                      <form action="{% url 'increase-cart-item' product.slug %}" method="post">
+                          {% csrf_token %}
+                      </form>
+                  
+                </div>
+            </div>
+          </div>
+            <form action="{% url 'by-now' product.slug %}" method="post">
+              {% csrf_token %}
+              <button class="add-to-cart-btn">By now</button>
+            </form>
+            <form action="{% url 'add-to-cart' product.slug %}" method="post">
+              {% csrf_token %}
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </form>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quantityInput = document.querySelector('.input-group input');
+        var decrementButton = document.getElementById('decrement');
+        var incrementButton = document.getElementById('increment');
+
+        decrementButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value, 1);
+            if (!isNaN(currentValue) && currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        incrementButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value, 1);
+            if (!isNaN(currentValue)) {
+                quantityInput.value = currentValue + 1;
+            }
+        });
+    });
+</script>
+
+
+
+{% endblock %}

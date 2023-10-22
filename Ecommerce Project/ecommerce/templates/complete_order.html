@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+
+{% block start %}
+<style>
+    .order-confirmation {
+        text-align: center;
+        padding: 50px;
+    }
+    .continue-shopping {
+        display: block;
+        margin-top: 20px;
+        font-size: 1.2em;
+        color: #28a745;
+        text-decoration: none;
+    }
+</style>
+
+<div class="order-confirmation">
+    <h2>Your order has been placed successfully!</h2>
+    <a href="{% url 'product' %}" class="continue-shopping">Continue Shopping</a>
+</div>
+
+{% endblock %}
